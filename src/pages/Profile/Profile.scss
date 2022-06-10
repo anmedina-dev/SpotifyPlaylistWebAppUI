@@ -1,0 +1,27 @@
+.profile-body {
+    margin-top: 100px;
+}
+
+.profile-title-section, .profile-sub-title-section{
+    display: flex;
+}
+
+.profile-title-section img {
+    border-radius: 50%;
+    height: 200px;
+}
+
+h2 {
+    margin-left: 20px;
+    font-size: 100px;
+    align-self: flex-end;
+}
+
+.profile-sub-title-section { 
+    margin-top: 10px;
+    font-size: 20px;
+}
+
+.profile-sub-title-section * {
+    margin: 0px 20px;
+}
