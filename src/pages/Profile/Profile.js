@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import SongCard from "../../components/SongCard";
+import { SongContext } from "../Home/Home";
 import "./Profile.scss";
 
 export default function Profile(props) {
+  const { song, setSong } = useContext(SongContext);
   const user = props.user;
   const spotifyApi = props.spotifyApi;
-
   const [recentlyPlayedSongs, setRecentlySongs] = useState([]);
 
   useEffect(() => {
@@ -25,7 +26,12 @@ export default function Profile(props) {
   }, []);
 
   const recentlyPlayedSongsList = recentlyPlayedSongs.map((song) => (
-    <SongCard song={song.track} />
+    <SongCard
+      onClick={() => {
+        setSong(song.track);
+      }}
+      song={song.track}
+    />
   ));
 
   return (

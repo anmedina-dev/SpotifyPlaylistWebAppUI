@@ -5,7 +5,7 @@
     opacity: 99%;
     bottom: 0;
     width: 100%;
-    height: 8%;
+    height: 100px;
     position: fixed;
     z-index: 1000;
 }
@@ -26,7 +26,7 @@ svg[data-testid='PlayCircleIcon']:hover, svg[data-testid='PauseCircleIcon']:hove
     font-size: 3.8rem;
 }
 
-svg[data-testid='SkipNextIcon']:hover, svg[data-testid='SkipPreviousIcon']:hover {
+svg[data-testid='SkipNextIcon']:hover, svg[data-testid='SkipPreviousIcon']:hover, svg[data-testid='RepeatIcon']:hover {
     color: white;
 }
 
@@ -36,4 +36,20 @@ svg[data-testid='SkipNextIcon']:hover, svg[data-testid='SkipPreviousIcon']:hover
 
 .playback-controls * {
     margin: 0px 5px;
+    cursor: pointer;
 }
+
+.playback-song img {
+    height: 80%;
+}
+.playback-song-meta-data{
+    margin-left: 10px;
+}
+.playback-song-meta-data>*{
+    color: white;
+} 
+.playback-song {
+    justify-content: flex-start;
+    padding-left: 50px;
+}
+

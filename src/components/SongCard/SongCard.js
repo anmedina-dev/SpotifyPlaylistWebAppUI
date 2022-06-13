@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { SongContext } from "../../pages/Home/Home";
 import "./SongCard.scss";
 
 export default function SongCard(props) {
-  const song = props.song;
-
+  const songItem = props.song;
+  const { song, setSong } = useContext(SongContext);
   const [artists, setArtists] = useState("");
 
   useEffect(() => {
     let tempArtists = "";
     let index = 0;
-    song.artists.forEach((artist) => {
-      if (index === song.artists.length - 1) {
+    songItem.artists.forEach((artist) => {
+      if (index === songItem.artists.length - 1) {
         tempArtists = tempArtists + ` ${artist.name}`;
       } else {
         tempArtists = tempArtists + ` ${artist.name}, `;
@@ -19,16 +20,21 @@ export default function SongCard(props) {
       index++;
     });
     setArtists(tempArtists);
-  }, [song.artists]);
+  }, [songItem.artists]);
 
   return (
-    <div className="song-card-body">
+    <div
+      onClick={() => {
+        setSong(songItem);
+      }}
+      className="song-card-body"
+    >
       <img
-        src={song.album.images[song.album.images.length - 1].url}
+        src={songItem.album.images[songItem.album.images.length - 1].url}
         alt="album-pic"
       />
       <div className="song-meta-data-section">
-        <h5>{song.name}</h5>
+        <h5>{songItem.name}</h5>
         <p>{artists}</p>
       </div>
     </div>
