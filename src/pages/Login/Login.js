@@ -1,4 +1,5 @@
 import React from "react";
+import SpotifyWebApi from "spotify-web-api-node";
 import { Button } from "@mui/material";
 import "./Login.scss";
 import { createTheme } from "@mui/material/styles";
@@ -12,8 +13,34 @@ const buttomTheme = createTheme({
   },
 });
 
-const AUTH_URL =
-  "https://accounts.spotify.com/authorize?client_id=6d45003bbeb748c2b3140ffb5c7c6626&response_type=code&redirect_uri=http://localhost:8080/&scope=ugc-image-upload%20user-read-recently-played%20user-read-playback-state%20user-read-email%20streaming%20user-top-read%20playlist-modify-public%20user-read-currently-playing%20user-library-read%20playlist-read-private%20playlist-modify-private";
+const scopes = [
+    "user-read-private",
+    "user-read-email",
+    "ugc-image-upload",
+    "user-modify-playback-state",
+    "user-read-recently-played",
+    "user-read-playback-position",
+    "user-read-playback-state",
+    "streaming",
+    "app-remote-control",
+    "user-top-read",
+    "playlist-modify-public",
+    "user-library-modify",
+    "user-follow-read",
+    "user-read-currently-playing",
+    "user-library-read",
+    "playlist-read-private",
+    "playlist-modify-private",
+  ],
+  redirectUri = "http://localhost:8080/",
+  clientId = "6d45003bbeb748c2b3140ffb5c7c6626";
+
+const spotifyApi = new SpotifyWebApi({
+  redirectUri: redirectUri,
+  clientId: clientId,
+});
+
+const authorizeURL = spotifyApi.createAuthorizeURL(scopes);
 
 export default function Login() {
   return (
@@ -30,7 +57,7 @@ export default function Login() {
             variant="contained"
             size="large"
             color="primary"
-            href={AUTH_URL}
+            href={authorizeURL}
           >
             Login
           </Button>

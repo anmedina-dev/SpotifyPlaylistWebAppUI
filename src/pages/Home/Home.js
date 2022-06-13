@@ -22,7 +22,6 @@ export default function Home({ code }) {
 
   useEffect(() => {
     if (!accessToken) return;
-    console.log(accessToken);
     spotifyApi.setAccessToken(accessToken);
     setGotUser(true);
   }, [accessToken]);
@@ -50,7 +49,10 @@ export default function Home({ code }) {
               <Route path="*" element={<NotFound />} />
               <Route path="/" element={<LandingPage />} />
               <Route path="/TopSongs" element={<TopSongs />} />
-              <Route path="/FindSong" element={<FindSong />} />
+              <Route
+                path="/FindSong"
+                element={<FindSong spotifyApi={spotifyApi} />}
+              />
               <Route path="/PlaylistCreator" element={<PlaylistCreator />} />
               <Route
                 path="/Profile"

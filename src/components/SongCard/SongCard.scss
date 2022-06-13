@@ -1,0 +1,29 @@
+.song-card-body {
+    display: flex;
+    background-color: black;
+    color: white;
+    border-radius: 10% / 100%;
+    margin: 10px 5px;
+    padding: 10px;
+    align-items: center;
+    
+}
+
+.song-card-body:hover {
+    cursor: pointer;
+    opacity: 0.95;
+}
+
+.song-meta-data-section {
+    padding: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.song-meta-data-section * {
+    margin-bottom: 0px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
