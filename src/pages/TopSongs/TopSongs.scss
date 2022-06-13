@@ -1,0 +1,19 @@
+.top-songs-body {
+    margin-top: 100px;
+}
+
+.list {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.top-song-list {
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.top-songs-progress-bar {
+    display: grid;
+    align-content: center;
+}

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import SongCard from "../../components/SongCard";
-
 import "./FindSong.scss";
 
 export default function FindSong(props) {
@@ -19,6 +18,7 @@ export default function FindSong(props) {
         console.error(err);
       }
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchInput]);
 
   const songList = searchResults.map((song) => <SongCard song={song} />);

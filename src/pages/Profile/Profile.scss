@@ -25,3 +25,12 @@ h2 {
 .profile-sub-title-section * {
     margin: 0px 20px;
 }
+
+.list {
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.profile-body-section>* {
+    margin-top: 40px;
+}

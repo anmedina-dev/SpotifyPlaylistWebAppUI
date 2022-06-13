@@ -9,6 +9,7 @@ import TopSongs from "../TopSongs";
 import PlaylistCreator from "../PlaylistCreator";
 import Profile from "../Profile";
 import FindSong from "../FindSong";
+import Playback from "../../components/Playback/Playback";
 
 const spotifyApi = new SpotifyWebApi({
   clientId: "6d45003bbeb748c2b3140ffb5c7c6626",
@@ -48,7 +49,10 @@ export default function Home({ code }) {
             <Routes>
               <Route path="*" element={<NotFound />} />
               <Route path="/" element={<LandingPage />} />
-              <Route path="/TopSongs" element={<TopSongs />} />
+              <Route
+                path="/TopSongs"
+                element={<TopSongs spotifyApi={spotifyApi} />}
+              />
               <Route
                 path="/FindSong"
                 element={<FindSong spotifyApi={spotifyApi} />}
@@ -60,6 +64,7 @@ export default function Home({ code }) {
               />
             </Routes>
           </div>
+          <Playback />
         </>
       ) : (
         <></>
