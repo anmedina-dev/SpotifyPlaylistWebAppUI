@@ -11,6 +11,7 @@ export default function TopSongs(props) {
   useEffect(() => {
     spotifyApi.getMyTopTracks().then(
       function (data) {
+        console.log(data.body.items);
         setTopSongs(data.body.items);
       },
       function (err) {
@@ -20,7 +21,11 @@ export default function TopSongs(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const topSongsList = TopSongs.map((song) => <SongCard song={song} />);
+  const topSongsList = TopSongs.map((song) => (
+    <SongCard popularity={true} song={song} />
+  ));
+
+  /*
   const topSongPopularityList = TopSongs.map((song) => (
     <LinearProgress
       variant="determinate"
@@ -35,7 +40,7 @@ export default function TopSongs(props) {
       <div className="top-songs-progress-bar">{topSongPopularityList[i]}</div>
     );
   }
-
+*/
   return (
     <div className="top-songs-body">
       <h1>Your Top Songs</h1>
@@ -43,7 +48,7 @@ export default function TopSongs(props) {
         <h4>Song</h4>
         <h4>Popularity</h4>
       </div>
-      <div className="top-song-list">{topSongAndPopularityList}</div>
+      <div className="top-song-list">{topSongsList}</div>
     </div>
   );
 }

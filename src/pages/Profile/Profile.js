@@ -30,6 +30,7 @@ export default function Profile(props) {
       onClick={() => {
         setSong(song.track);
       }}
+      popularity={false}
       song={song.track}
     />
   ));

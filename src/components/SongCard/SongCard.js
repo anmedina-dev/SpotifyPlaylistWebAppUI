@@ -3,9 +3,13 @@ import { SongContext } from "../../pages/Home/Home";
 import "./SongCard.scss";
 
 export default function SongCard(props) {
+  const popularity = props.popularity;
   const songItem = props.song;
   const { song, setSong } = useContext(SongContext);
   const [artists, setArtists] = useState("");
+
+  let popularityWidth;
+  if (popularity) popularityWidth = { width: `${songItem.popularity}%` };
 
   useEffect(() => {
     let tempArtists = "";
@@ -23,20 +27,41 @@ export default function SongCard(props) {
   }, [songItem.artists]);
 
   return (
-    <div
-      onClick={() => {
-        setSong(songItem);
-      }}
-      className="song-card-body"
-    >
-      <img
-        src={songItem.album.images[songItem.album.images.length - 1].url}
-        alt="album-pic"
-      />
-      <div className="song-meta-data-section">
-        <h5>{songItem.name}</h5>
-        <p>{artists}</p>
-      </div>
-    </div>
+    <>
+      {popularity ? (
+        <div
+          onClick={() => {
+            setSong(songItem);
+          }}
+          className="song-card-body"
+          style={popularityWidth}
+        >
+          <img
+            src={songItem.album.images[songItem.album.images.length - 1].url}
+            alt="album-pic"
+          />
+          <div className="song-meta-data-section">
+            <h5>{songItem.name}</h5>
+            <p>{artists}</p>
+          </div>
+        </div>
+      ) : (
+        <div
+          onClick={() => {
+            setSong(songItem);
+          }}
+          className="song-card-body"
+        >
+          <img
+            src={songItem.album.images[songItem.album.images.length - 1].url}
+            alt="album-pic"
+          />
+          <div className="song-meta-data-section">
+            <h5>{songItem.name}</h5>
+            <p>{artists}</p>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
