@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import SongCard from "../../components/SongCard";
-import LinearProgress from "@mui/material/LinearProgress";
 import "./TopSongs.scss";
 
 export default function TopSongs(props) {
@@ -25,22 +24,6 @@ export default function TopSongs(props) {
     <SongCard popularity={true} song={song} />
   ));
 
-  /*
-  const topSongPopularityList = TopSongs.map((song) => (
-    <LinearProgress
-      variant="determinate"
-      color="inherit"
-      value={song.popularity}
-    />
-  ));
-  let topSongAndPopularityList = [];
-  for (let i = 0; i < 20; i++) {
-    topSongAndPopularityList.push(topSongsList[i]);
-    topSongAndPopularityList.push(
-      <div className="top-songs-progress-bar">{topSongPopularityList[i]}</div>
-    );
-  }
-*/
   return (
     <div className="top-songs-body">
       <h1>Your Top Songs</h1>

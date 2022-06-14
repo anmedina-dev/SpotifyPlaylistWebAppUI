@@ -4,7 +4,7 @@ import { SongContext } from "../Home/Home";
 import "./Profile.scss";
 
 export default function Profile(props) {
-  const { song, setSong } = useContext(SongContext);
+  const { setSong } = useContext(SongContext);
   const user = props.user;
   const spotifyApi = props.spotifyApi;
   const [recentlyPlayedSongs, setRecentlySongs] = useState([]);

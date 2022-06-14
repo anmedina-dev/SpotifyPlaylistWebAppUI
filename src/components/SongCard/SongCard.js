@@ -5,7 +5,7 @@ import "./SongCard.scss";
 export default function SongCard(props) {
   const popularity = props.popularity;
   const songItem = props.song;
-  const { song, setSong } = useContext(SongContext);
+  const { setSong } = useContext(SongContext);
   const [artists, setArtists] = useState("");
 
   let popularityWidth;
