@@ -20,7 +20,7 @@ export default function Header(props) {
           >
             <Nav className="me-auto">
               <Nav.Link as={Link} to="/PlaylistCreator">
-                Create Playlist
+                Playlist Dropper
               </Nav.Link>
               <Nav.Link as={Link} to="/TopSongs">
                 Your Top Songs

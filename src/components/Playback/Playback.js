@@ -105,6 +105,7 @@ export default function Playback(props) {
         }
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inPlay]);
 
   useEffect(() => {
@@ -142,6 +143,7 @@ export default function Playback(props) {
       setSongProgress((initialSongProgress / songDuration) * 100);
       setInitialSongProgress(songProgress + 1000);
     }, 1000);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [song]);
 
   return (
