@@ -52,7 +52,7 @@ export default function Home({ code }) {
             <div className="container">
               <Routes>
                 <Route path="*" element={<NotFound />} />
-                <Route path="/" element={<LandingPage />} />
+                <Route path="/" element={<LandingPage user={user} />} />
                 <Route
                   path="/TopSongs"
                   element={<TopSongs spotifyApi={spotifyApi} />}
