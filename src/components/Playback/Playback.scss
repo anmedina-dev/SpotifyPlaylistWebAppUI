@@ -44,6 +44,10 @@ svg[data-testid='SkipNextIcon']:hover, svg[data-testid='SkipPreviousIcon']:hover
 }
 .playback-song-meta-data{
     margin-left: 10px;
+    width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .playback-song-meta-data>*{
     color: white;

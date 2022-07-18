@@ -3,7 +3,6 @@ import "./LandingPage.scss";
 
 export default function LandingPage(props) {
   const user = props.user;
-  console.log(user);
 
   return (
     <div className="landing-page-body">

@@ -61,14 +61,19 @@ export default function Home({ code }) {
                   path="/FindSong"
                   element={<FindSong spotifyApi={spotifyApi} />}
                 />
-                <Route path="/PlaylistCreator" element={<PlaylistCreator />} />
+                <Route
+                  path="/PlaylistCreator"
+                  element={
+                    <PlaylistCreator user={user} spotifyApi={spotifyApi} />
+                  }
+                />
                 <Route
                   path="/Profile"
                   element={<Profile user={user} spotifyApi={spotifyApi} />}
                 />
               </Routes>
             </div>
-            <Playback spotifyApi={spotifyApi} />
+            {/*<Playback spotifyApi={spotifyApi} />*/}
           </SongContext.Provider>
         </>
       ) : (

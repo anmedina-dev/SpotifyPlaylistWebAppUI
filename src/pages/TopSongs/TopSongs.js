@@ -10,7 +10,6 @@ export default function TopSongs(props) {
   useEffect(() => {
     spotifyApi.getMyTopTracks().then(
       function (data) {
-        console.log(data.body.items);
         setTopSongs(data.body.items);
       },
       function (err) {
