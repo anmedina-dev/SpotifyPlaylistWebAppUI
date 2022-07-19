@@ -1,0 +1,14 @@
+.playlist-card-body {
+    display: flex;
+    background-color: #2b2a33;
+    color: white;
+    border-radius: 80px / 100%;
+    margin: 10px 5px;
+    padding: 10px;
+    align-items: center;
+}
+
+.playlist-card-body:hover {
+    cursor: pointer;
+    opacity: 0.95;
+}

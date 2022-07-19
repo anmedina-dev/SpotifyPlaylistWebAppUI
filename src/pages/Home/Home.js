@@ -9,7 +9,7 @@ import TopSongs from "../TopSongs";
 import PlaylistCreator from "../PlaylistCreator";
 import Profile from "../Profile";
 import FindSong from "../FindSong";
-import Playback from "../../components/Playback/Playback";
+//import Playback from "../../components/Playback/Playback";
 
 const spotifyApi = new SpotifyWebApi({
   clientId: "6d45003bbeb748c2b3140ffb5c7c6626",

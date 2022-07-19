@@ -4,7 +4,6 @@ import "./TopSongs.scss";
 
 export default function TopSongs(props) {
   const spotifyApi = props.spotifyApi;
-
   const [TopSongs, setTopSongs] = useState([]);
 
   useEffect(() => {

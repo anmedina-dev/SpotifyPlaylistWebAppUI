@@ -1,0 +1,13 @@
+.existing-playlists-body{
+    margin-top: 100px;
+}
+
+.existing-playlists-body h4{
+   font-size: 50px; 
+   text-align: center;
+}
+
+.playlist-list{
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+}
