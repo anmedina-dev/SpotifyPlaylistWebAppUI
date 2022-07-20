@@ -1,14 +1,27 @@
 .playlist-card-body {
     display: flex;
+    justify-content: space-between;
     background-color: #2b2a33;
     color: white;
     border-radius: 80px / 100%;
     margin: 10px 5px;
-    padding: 10px;
+    padding: 25px;
     align-items: center;
+}
+
+.playlist-card-body h3 {
+    font-size: 150%;
 }
 
 .playlist-card-body:hover {
     cursor: pointer;
     opacity: 0.95;
+}
+
+.playlist-card-body img {
+    height: 150px;
+}
+
+.playlist-card-meta-section * {
+    text-align: left;
 }
