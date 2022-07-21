@@ -1,7 +1,7 @@
 import React from "react";
 import SpotifyWebApi from "spotify-web-api-node";
-import { Button } from "@mui/material";
 import "./Login.scss";
+import { Button } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@emotion/react";
 

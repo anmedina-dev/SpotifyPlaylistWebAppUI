@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PlaylistCard from "../PlaylistCard";
+import PlaylistDropper from "../PlaylistDropper";
 import "./ExistingPlaylists.scss";
 
 export default function ExistingPlaylists(props) {
@@ -52,7 +53,11 @@ export default function ExistingPlaylists(props) {
           <div className="playlist-list">{userPlaylists && userPlaylists}</div>
         </>
       ) : (
-        <>Hello</>
+        <PlaylistDropper
+          spotifyApi={spotifyApi}
+          title={chosenPlaylist.name}
+          user={user}
+        />
       )}
     </div>
   );
