@@ -22,9 +22,20 @@ export default function CreatePlaylist(props) {
   const [playlistDescription, setPlaylistDescription] = useState("");
 
   const createPlaylist = () => {
-    console.log(playlistTitle);
-    console.log(playlistDescription);
-    setIsPlaylistCreated(true);
+    spotifyApi
+      .createPlaylist(playlistTitle, {
+        description: playlistDescription,
+        public: true,
+      })
+      .then(
+        function (data) {
+          console.log("Created playlist!");
+          setIsPlaylistCreated(true);
+        },
+        function (err) {
+          console.log("Something went wrong!", err);
+        }
+      );
   };
   return (
     <div className="create-playlist-body">
