@@ -21,6 +21,7 @@ export default function PlaylistDropper(props) {
       }
     );
   }, []);
+
   return (
     <div className="playlist-dropper-body">
       <h2>{playlistTitle}</h2>
