@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { decodeEntity } from "html-entities";
+import frown from "../../assets/images/frown-modified-9.png";
 import "./PlaylistCard.scss";
 
 export default function PlaylistCard(props) {
   const playlistInfo = props.playlist;
   const [playlistTitle, setPlaylistTitle] = useState("");
   const [playlistDescription, setPlaylistDescription] = useState("");
-  console.log(playlistInfo);
 
   useEffect(() => {
     setPlaylistTitle(processWord(playlistInfo.name));
@@ -37,8 +37,6 @@ export default function PlaylistCard(props) {
         for (var i = 0; i < hexWord.length; i += 2)
           asciiWord += String.fromCharCode(parseInt(hexWord.substr(i, 2), 16));
 
-        console.log(asciiWord);
-
         // If it's an HTML Entity
       } else {
         asciiWord = decodeEntity(hexTotalWord, { level: "html5" });
@@ -59,7 +57,11 @@ export default function PlaylistCard(props) {
         <h5>Track Count: {playlistInfo.tracks.total}</h5>
       </div>
       <div className="playlist-card-img-section">
-        <img src={playlistInfo.images[0].url} alt="playlist-pic" />
+        {playlistInfo.images.length > 0 ? (
+          <img src={playlistInfo.images[0].url} alt="playlist-pic" />
+        ) : (
+          <img src={frown} alt="playlist-pic" />
+        )}
       </div>
     </div>
   );

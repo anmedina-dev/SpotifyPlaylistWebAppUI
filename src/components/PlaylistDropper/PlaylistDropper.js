@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./PlaylistDropper.scss";
 export default function PlaylistDropper(props) {
   const playlistTitle = props.title;
@@ -7,25 +7,26 @@ export default function PlaylistDropper(props) {
 
   const [playlistInfo, setPlaylistInfo] = useState();
 
-  useState(() => {
+  useEffect(() => {
     spotifyApi.getUserPlaylists(user.id).then(
       function (data) {
         console.log("Retrieved playlists", data.body);
         const unoPlaylist = data.body.items.filter(
           (playlist) => playlist.name === playlistTitle
         );
+        console.log(unoPlaylist);
         setPlaylistInfo(unoPlaylist[0]);
       },
       function (err) {
         console.log("Something went wrong!", err);
       }
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div className="playlist-dropper-body">
-      <h2>{playlistTitle}</h2>
-      <h2>{playlistInfo.name}</h2>
+      {playlistInfo ? <h2>{playlistInfo.name}</h2> : <></>}
     </div>
   );
 }

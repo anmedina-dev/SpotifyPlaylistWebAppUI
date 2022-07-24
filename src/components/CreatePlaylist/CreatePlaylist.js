@@ -23,7 +23,7 @@ export default function CreatePlaylist(props) {
 
   const createPlaylist = () => {
     spotifyApi
-      .createPlaylist(playlistTitle, {
+      .createPlaylist(user.id, playlistTitle, {
         description: playlistDescription,
         public: true,
       })
@@ -37,6 +37,7 @@ export default function CreatePlaylist(props) {
         }
       );
   };
+
   return (
     <div className="create-playlist-body">
       {!isPlaylistCreated ? (

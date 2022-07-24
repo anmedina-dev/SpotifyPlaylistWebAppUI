@@ -38,13 +38,7 @@ export default function ExistingPlaylists(props) {
     if (!chosenPlaylist) return;
     setIsChosenPlaylist(true);
   }, [chosenPlaylist]);
-  /*
-  const chosePlaylist = (playlist) => {
-    setChosenPlaylist(playlist);
-    setIsChosenPlaylist(true);
-    console.log("hey");
-  };
-*/
+
   return (
     <div className="existing-playlists-body">
       {!isChosenPlaylist ? (
