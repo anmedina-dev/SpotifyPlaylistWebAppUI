@@ -24,7 +24,8 @@ export default function CreatePlaylist(props) {
   const createPlaylist = () => {
     spotifyApi
       .createPlaylist(user.id, playlistTitle, {
-        description: playlistDescription,
+        // public is the only option currently available in the API
+        // description: playlistDescription,
         public: true,
       })
       .then(
