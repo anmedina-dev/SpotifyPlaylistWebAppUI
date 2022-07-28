@@ -19,7 +19,7 @@ export default function CreatePlaylist(props) {
   const spotifyApi = props.spotifyApi;
   const [isPlaylistCreated, setIsPlaylistCreated] = useState(false);
   const [playlistTitle, setPlaylistTitle] = useState("");
-  const [playlistDescription, setPlaylistDescription] = useState("");
+  // const [playlistDescription, setPlaylistDescription] = useState("");
 
   const createPlaylist = () => {
     spotifyApi
@@ -42,28 +42,32 @@ export default function CreatePlaylist(props) {
   return (
     <div className="create-playlist-body">
       {!isPlaylistCreated ? (
-        <FormGroup className="create-playlist-form">
-          <TextField
-            required
-            label="Playlist Title"
-            onChange={(e) => setPlaylistTitle(e.target.value)}
-          />
-          <TextField
+        <div className="create-playlist-section">
+          <h3 className="create-playlist-header">Create Playlist</h3>
+          <FormGroup className="create-playlist-form">
+            <TextField
+              required
+              label="Playlist Title"
+              onChange={(e) => setPlaylistTitle(e.target.value)}
+            />
+            {/**<TextField
             required
             label="Playlist Description"
             onChange={(e) => setPlaylistDescription(e.target.value)}
-          />
-          <ThemeProvider theme={buttomTheme}>
-            <Button
-              variant="contained"
-              size="large"
-              color="primary"
-              onClick={createPlaylist}
-            >
-              Submit
-            </Button>
-          </ThemeProvider>
-        </FormGroup>
+          /> */}
+
+            <ThemeProvider theme={buttomTheme}>
+              <Button
+                variant="contained"
+                size="large"
+                color="primary"
+                onClick={createPlaylist}
+              >
+                Submit
+              </Button>
+            </ThemeProvider>
+          </FormGroup>
+        </div>
       ) : (
         <PlaylistDropper
           spotifyApi={spotifyApi}

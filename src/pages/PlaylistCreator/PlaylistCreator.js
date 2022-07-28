@@ -26,12 +26,18 @@ export default function PlaylistCreator(props) {
   };
   const setToPickExistingPlaylistComponent = () => {
     setShowButtons(false);
+    setIsCreateNewPlaylist(false);
   };
 
   return (
     <div className="playlist-creator-body">
       <div className="playlist-creator-header">
-        <h2>Playlist Dropper</h2>
+        <h2
+          onClick={() => setShowButtons(true)}
+          className="playist-creator-header"
+        >
+          Playlist Dropper
+        </h2>
       </div>
       <div className="playlist-dropper-body">
         {showButtons ? (

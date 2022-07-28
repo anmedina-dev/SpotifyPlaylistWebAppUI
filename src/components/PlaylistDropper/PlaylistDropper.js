@@ -43,7 +43,8 @@ export default function PlaylistDropper(props) {
       {playlistInfo ? (
         <>
           {!isModifyPlaylist ? (
-            <>
+            <div className="playlist-dropper-section">
+              <h2>{playlistInfo.name}</h2>
               <ThemeProvider theme={buttomTheme}>
                 <Button
                   variant="contained"
@@ -54,8 +55,7 @@ export default function PlaylistDropper(props) {
                   Modify Playlist
                 </Button>
               </ThemeProvider>
-              <h2>{playlistInfo.name}</h2>{" "}
-            </>
+            </div>
           ) : (
             <ModifyPlaylist
               user={user}

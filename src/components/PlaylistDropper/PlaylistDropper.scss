@@ -1,0 +1,13 @@
+.playlist-dropper-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.playlist-dropper-section>button{
+    height: 50px;
+}
+
+.playlist-dropper-section>*{
+    margin: 0px 20px;
+}
