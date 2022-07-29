@@ -24,7 +24,7 @@ export default function PlaylistDropper(props) {
   useEffect(() => {
     spotifyApi.getUserPlaylists(user.id).then(
       function (data) {
-        console.log("Retrieved playlists", data.body);
+        //console.log("Retrieved playlists", data.body);
         const unoPlaylist = data.body.items.filter(
           (playlist) => playlist.name === playlistTitle
         );
