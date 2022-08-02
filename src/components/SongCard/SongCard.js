@@ -4,6 +4,7 @@ import styled, { keyframes } from "styled-components";
 import "./SongCard.scss";
 
 export default function SongCard(props) {
+  const ref = props.ref;
   const popularity = props.popularity;
   const songItem = props.song;
   const { setSong } = useContext(SongContext);
@@ -42,13 +43,8 @@ export default function SongCard(props) {
   return (
     <>
       {popularity ? (
-        <WidthTransition>
-          <div
-            onClick={() => {
-              setSong(songItem);
-            }}
-            className="song-card-body"
-          >
+        <WidthTransition ref={ref}>
+          <div className="song-card-body">
             <img
               src={songItem.album.images[songItem.album.images.length - 1].url}
               alt="album-pic"
@@ -60,12 +56,7 @@ export default function SongCard(props) {
           </div>
         </WidthTransition>
       ) : (
-        <div
-          onClick={() => {
-            setSong(songItem);
-          }}
-          className="song-card-body"
-        >
+        <div className="song-card-body" ref={ref}>
           <img
             src={songItem.album.images[songItem.album.images.length - 1].url}
             alt="album-pic"

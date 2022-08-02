@@ -1,4 +1,4 @@
-.playlist-dropper-section {
+.playlist-dropper-header {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -10,4 +10,39 @@
 
 .playlist-dropper-section>*{
     margin: 0px 20px;
+}
+
+.playlist-dropper-zone{
+    display: grid;
+    grid-template-columns: 45% 45%;
+    justify-content: space-between;
+}
+
+.playlist-dropper-zone{
+    margin-top: 80px;
+}
+
+.playlist-dropper-zone h5 {
+    font-size: 50px;
+}
+
+.playlist-song-zone {
+    background-color: rgb(48, 30, 14);
+    border-radius: 20% / 1.3%;
+    padding: 25px;
+    display: grid;
+    grid-template-columns: 100%;
+}
+
+.playlist-recommended-zone {
+    background-color: rgb(48, 30, 14);
+    border-radius: 20% / 1.3%;
+    padding: 25px;
+    display: grid;
+    grid-template-columns: 100%;
+}
+
+.playlist-recommended-zone, .playlist-song-zone {
+    flex-grow: 1;
+    min-height: 2000px;
 }

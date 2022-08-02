@@ -22,6 +22,23 @@ export default function Profile(props) {
           console.log("Something went wrong!", err);
         }
       );
+
+    spotifyApi.getUserPlaylists(user.id).then(
+      function (data) {
+        // Get playlist songs
+        spotifyApi.getPlaylist("7Aw9OU7Lu6OHpOXsivZG1F").then(
+          function (data) {
+            console.log("Some information about this playlist", data.body);
+          },
+          function (err) {
+            console.log("Something went wrong!", err);
+          }
+        );
+      },
+      function (err) {
+        console.log("Something went wrong!", err);
+      }
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
