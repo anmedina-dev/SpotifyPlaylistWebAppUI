@@ -30,19 +30,20 @@
     background-color: rgb(48, 30, 14);
     border-radius: 20% / 1.3%;
     padding: 25px;
-    display: grid;
-    grid-template-columns: 100%;
+    
 }
 
 .playlist-recommended-zone {
     background-color: rgb(48, 30, 14);
     border-radius: 20% / 1.3%;
     padding: 25px;
-    display: grid;
-    grid-template-columns: 100%;
+    
 }
 
 .playlist-recommended-zone, .playlist-song-zone {
     flex-grow: 1;
     min-height: 2000px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
 }

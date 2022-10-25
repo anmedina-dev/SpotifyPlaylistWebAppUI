@@ -1,13 +1,24 @@
+import { useSortable } from "@dnd-kit/sortable";
 import React, { useEffect, useState, useContext } from "react";
-import { SongContext } from "../../pages/Home/Home";
+import { CSS } from "@dnd-kit/utilities";
+// import { SongContext } from "../../pages/Home/Home";
 import styled, { keyframes } from "styled-components";
 import "./SongCard.scss";
 
 export default function SongCard(props) {
-  const ref = props.ref;
   const popularity = props.popularity;
   const songItem = props.song;
-  const { setSong } = useContext(SongContext);
+  // console.log(songItem);
+
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: songItem.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+  //console.log(songItem.id);
+  // const { setSong } = useContext(SongContext);
   const [artists, setArtists] = useState("");
 
   const widthTransition = keyframes`
@@ -43,7 +54,7 @@ export default function SongCard(props) {
   return (
     <>
       {popularity ? (
-        <WidthTransition ref={ref}>
+        <WidthTransition>
           <div className="song-card-body">
             <img
               src={songItem.album.images[songItem.album.images.length - 1].url}
@@ -56,7 +67,13 @@ export default function SongCard(props) {
           </div>
         </WidthTransition>
       ) : (
-        <div className="song-card-body" ref={ref}>
+        <div
+          ref={setNodeRef}
+          style={style}
+          {...attributes}
+          {...listeners}
+          className="song-card-body"
+        >
           <img
             src={songItem.album.images[songItem.album.images.length - 1].url}
             alt="album-pic"
