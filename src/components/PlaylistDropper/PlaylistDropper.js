@@ -32,8 +32,6 @@ const buttomTheme = createTheme({
 
 export function Container(props) {
   const { id, playlists } = props;
-  // console.log(playlists);
-
   const { setNodeRef } = useDroppable({
     id,
   });
@@ -53,35 +51,6 @@ export function Container(props) {
   );
 }
 
-const defaultAnnouncements = {
-  onDragStart(id) {
-    console.log(`Picked up draggable item ${id.id}.`);
-  },
-  onDragOver(id, overId) {
-    if (overId) {
-      console.log(
-        `Draggable item ${id.id} was moved over droppable area ${overId.id}.`
-      );
-      return;
-    }
-
-    console.log(`Draggable item ${id.id} is no longer over a droppable area.`);
-  },
-  onDragEnd(id, overId) {
-    if (overId.id) {
-      console.log(
-        `Draggable item ${id.id} was dropped over droppable area ${overId.id}`
-      );
-      return;
-    }
-
-    console.log(`Draggable item ${id.id} was dropped.`);
-  },
-  onDragCancel(id) {
-    console.log(`Dragging was cancelled. Draggable item ${id.id} was dropped.`);
-  },
-};
-
 export default function PlaylistDropper(props) {
   const playlistTitle = props.title;
   const spotifyApi = props.spotifyApi;
@@ -99,10 +68,11 @@ export default function PlaylistDropper(props) {
     recommendedSongs: [],
   });
 
-  /*
-  const [existingPlaylistSongs, setExistingPlaylistSongs] = useState([]);
-  const [recommendedSongs, setRecommendedSongs] = useState([]);
-*/
+  const [exisitingPlaylistPlaceholder, setExistingPlaylistPlaceholder] =
+    useState([]);
+
+  const [playlistId, setPlaylistId] = useState("");
+
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -113,7 +83,6 @@ export default function PlaylistDropper(props) {
   useEffect(() => {
     spotifyApi.getUserPlaylists(user.id).then(
       function (data) {
-        console.log(data);
         const exactPlaylist = data.body.items.filter(
           (playlist) => playlist.name === playlistTitle
         );
@@ -121,11 +90,13 @@ export default function PlaylistDropper(props) {
         // Get playlist songs
         spotifyApi.getPlaylist(exactPlaylist[0].id).then(
           function (data) {
+            // Set Playlist Id on load
+            setPlaylistId(exactPlaylist[0].id);
             // Get playlist on load
             console.log("Some information about this playlist", data.body);
 
             const songs = data.body.tracks.items;
-            //console.log(songs);
+
             const artists = [];
             songs.forEach((song) => {
               const subArtists = song.track.artists;
@@ -139,7 +110,6 @@ export default function PlaylistDropper(props) {
             tempArtists = tempArtists.slice(0, 5);
             setUniqueArtists(tempArtists);
             setPlaylistInfo(data.body);
-            // console.log(tempArtists);
           },
           function (err) {
             console.log("Something went wrong!", err);
@@ -172,128 +142,60 @@ export default function PlaylistDropper(props) {
       .then(
         function (data) {
           // let recommendations = data.body;
-          console.log(data.body.tracks);
-          tempRecommendedPlaylist = data.body.tracks;
 
-          /*
-          setPlaylists((playlists) => ({
-            ...playlists,
-            recommendedSongs: data.body.tracks,
-          }));
-          */
-          // setRecommendedSongs(data.body.tracks);
+          tempRecommendedPlaylist = data.body.tracks;
 
           const tempExistPlaylist = [];
           // Get songs from existing playlist
-          console.log(playlistInfo);
+
           playlistInfo.tracks.items.forEach((song) => {
             tempExistPlaylist.push(song.track);
           });
 
-          console.log(tempExistPlaylist);
           setPlaylists((playlists) => ({
             ...playlists,
             existingPlaylistSongs: tempExistPlaylist,
             recommendedSongs: tempRecommendedPlaylist,
           }));
+          setExistingPlaylistPlaceholder(tempExistPlaylist);
         },
         function (err) {
           console.log("Something went wrong!", err);
         }
       );
-    // setExistingPlaylistSongs(tempExistPlaylist);
-    // console.log(existingPlaylistSongs);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [playlistInfo, uniqueArtists]);
 
   useEffect(() => {
-    console.log("activeID: ", activeId);
-  }, [activeId]);
+    if (exisitingPlaylistPlaceholder.length < 1) return;
 
-  return (
-    <div className="playlist-dropper-body">
-      {playlistInfo ? (
-        <>
-          {!isModifyPlaylist ? (
-            <div className="playlist-dropper-section">
-              <div className="playlist-dropper-header">
-                <h2>{playlistInfo.name}</h2>
-                <ThemeProvider theme={buttomTheme}>
-                  <Button
-                    variant="contained"
-                    size="large"
-                    color="primary"
-                    onClick={() => setModifyPlaylist(true)}
-                  >
-                    Modify Playlist
-                  </Button>
-                </ThemeProvider>
-              </div>
+    setExistingPlaylistPlaceholder(playlists.existingPlaylistSongs);
 
-              <div className="playlist-dropper-zone">
-                {playlists.existingPlaylistSongs.length > 0 &&
-                  playlists.recommendedSongs.length > 0 && (
-                    <DndContext
-                      sensors={sensors}
-                      collisionDetection={closestCorners}
-                      onDragStart={handleDragStart}
-                      onDragOver={handleDragOver}
-                      onDragEnd={handleDragEnd}
-                    >
-                      <div className="playlist-recommended-section">
-                        <h5>Recommended Songs</h5>
+    // removing songs
+    let difference = exisitingPlaylistPlaceholder.filter(
+      (x) => !playlists.existingPlaylistSongs.includes(x)
+    );
 
-                        <div className="playlist-recommended-zone">
-                          {playlists.recommendedSongs.length > 0 ? (
-                            <Container
-                              id="container-1"
-                              playlists={playlists.recommendedSongs}
-                            />
-                          ) : (
-                            <></>
-                          )}
-                        </div>
-                      </div>
-                      <div className="playist-song-section">
-                        <h5>Existing Songs</h5>
-                        <div className="playlist-song-zone">
-                          {playlists.existingPlaylistSongs.length > 0 ? (
-                            <Container
-                              id="container-2"
-                              playlists={playlists.existingPlaylistSongs}
-                            />
-                          ) : (
-                            <></>
-                          )}
-                        </div>
-                      </div>
-                      <DragOverlay>
-                        {activeId ? (
-                          <SongCard
-                            popularity={false}
-                            key={activeId.id}
-                            song={activeId}
-                          />
-                        ) : null}
-                      </DragOverlay>
-                    </DndContext>
-                  )}
-              </div>
-            </div>
-          ) : (
-            <ModifyPlaylist
-              user={user}
-              spotifyApi={spotifyApi}
-              playlist={playlistInfo}
-            />
-          )}
-        </>
-      ) : (
-        <></>
-      )}
-    </div>
-  );
+    if (difference.length > 0) {
+      spotifyApi.removeTracksFromPlaylist(playlistId, difference);
+    }
+
+    // adding songs
+    difference = playlists.existingPlaylistSongs.filter(
+      (x) => !exisitingPlaylistPlaceholder.includes(x)
+    );
+
+    if (difference.length > 0) {
+      const uriArray = [];
+
+      for (let x in difference) {
+        uriArray.push(difference[x].uri);
+      }
+
+      spotifyApi.addTracksToPlaylist(playlistId, uriArray);
+    }
+  }, [playlists.existingPlaylistSongs]);
 
   function findContainer(id) {
     if (id in playlists) {
@@ -306,7 +208,6 @@ export default function PlaylistDropper(props) {
   }
 
   function handleDragStart(event) {
-    console.log(event);
     const { active } = event;
     const { id } = active;
 
@@ -329,9 +230,6 @@ export default function PlaylistDropper(props) {
     // Find the containers
     const activeContainer = findContainer(id);
     const overContainer = findContainer(overId);
-
-    console.log(activeContainer);
-    console.log(overContainer);
 
     if (
       !activeContainer ||
@@ -388,16 +286,12 @@ export default function PlaylistDropper(props) {
   }
 
   function handleDragEnd(event) {
-    console.log(event);
     const { active, over } = event;
     const { id } = active;
     const { id: overId } = over;
 
     const activeContainer = findContainer(id);
     const overContainer = findContainer(overId);
-
-    // console.log(activeContainer);
-    // console.log(overContainer);
 
     if (
       !activeContainer ||
@@ -414,9 +308,6 @@ export default function PlaylistDropper(props) {
       playlists[overContainer].find((obj) => obj.id === overId)
     );
 
-    // console.log(activeIndex);
-    // console.log(overIndex);
-
     if (activeIndex !== overIndex) {
       setPlaylists((playlists) => ({
         ...playlists,
@@ -430,4 +321,80 @@ export default function PlaylistDropper(props) {
 
     setActiveId(null);
   }
+  return (
+    <div className="playlist-dropper-body">
+      {playlistInfo ? (
+        <>
+          {!isModifyPlaylist ? (
+            <div className="playlist-dropper-section">
+              <div className="playlist-dropper-header">
+                <h2>{playlistInfo.name}</h2>
+                <ThemeProvider theme={buttomTheme}>
+                  <Button
+                    variant="contained"
+                    size="large"
+                    color="primary"
+                    onClick={() => setModifyPlaylist(true)}
+                  >
+                    Modify Playlist
+                  </Button>
+                </ThemeProvider>
+              </div>
+
+              <div className="playlist-dropper-zone">
+                {playlists.existingPlaylistSongs.length > 0 &&
+                  playlists.recommendedSongs.length > 0 && (
+                    <DndContext
+                      sensors={sensors}
+                      collisionDetection={closestCorners}
+                      onDragStart={handleDragStart}
+                      onDragOver={handleDragOver}
+                      onDragEnd={handleDragEnd}
+                    >
+                      <div className="playlist-recommended-section">
+                        <h5>Recommended Songs</h5>
+
+                        <div className="playlist-recommended-zone">
+                          <Container
+                            id="container-1"
+                            playlists={playlists.recommendedSongs}
+                          />
+                        </div>
+                      </div>
+                      <div className="playist-song-section">
+                        <h5>Existing Songs</h5>
+                        <div className="playlist-song-zone">
+                          <Container
+                            id="container-2"
+                            playlists={playlists.existingPlaylistSongs}
+                          />
+                        </div>
+                      </div>
+                      <DragOverlay>
+                        {activeId ? (
+                          <SongCard
+                            popularity={false}
+                            key={activeId.id}
+                            song={activeId}
+                            className="drag-songcard"
+                          />
+                        ) : null}
+                      </DragOverlay>
+                    </DndContext>
+                  )}
+              </div>
+            </div>
+          ) : (
+            <ModifyPlaylist
+              user={user}
+              spotifyApi={spotifyApi}
+              playlist={playlistInfo}
+            />
+          )}
+        </>
+      ) : (
+        <></>
+      )}
+    </div>
+  );
 }
