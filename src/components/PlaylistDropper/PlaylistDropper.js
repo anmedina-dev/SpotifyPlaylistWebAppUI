@@ -42,7 +42,7 @@ export function Container(props) {
       items={playlists}
       strategy={verticalListSortingStrategy}
     >
-      <div ref={setNodeRef}>
+      <div ref={setNodeRef} className="sortable-context">
         {playlists.map((id) => (
           <SongCard key={id.id} popularity={false} song={id} />
         ))}
@@ -59,8 +59,11 @@ export default function PlaylistDropper(props) {
   const [playlistInfo, setPlaylistInfo] = useState({});
   const [isModifyPlaylist, setModifyPlaylist] = useState(false);
 
-  const [uniqueArtists, setUniqueArtists] = useState();
+  const [uniqueArtists, setUniqueArtists] = useState([]);
   const [activeId, setActiveId] = useState();
+
+  const [showContainers, setShowContainers] = useState(false);
+  const [isLikedSongs, setIsLikedSongs] = useState(false);
 
   // Song playlists
   const [playlists, setPlaylists] = useState({
@@ -94,21 +97,6 @@ export default function PlaylistDropper(props) {
             setPlaylistId(exactPlaylist[0].id);
             // Get playlist on load
             console.log("Some information about this playlist", data.body);
-
-            const songs = data.body.tracks.items;
-
-            const artists = [];
-            songs.forEach((song) => {
-              const subArtists = song.track.artists;
-              subArtists.forEach((subArtist) => {
-                artists.push(subArtist.id);
-              });
-            });
-
-            // Finding first 5 Unique Arists in playlist
-            let tempArtists = [...new Set(artists)];
-            tempArtists = tempArtists.slice(0, 5);
-            setUniqueArtists(tempArtists);
             setPlaylistInfo(data.body);
           },
           function (err) {
@@ -124,10 +112,26 @@ export default function PlaylistDropper(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (
+      playlists.existingPlaylistSongs.length > 0 &&
+      playlists.recommendedSongs.length > 0
+    ) {
+      setShowContainers(true);
+      return;
+    }
+    if (isLikedSongs && playlists.recommendedSongs.length > 0) {
+      setShowContainers(true);
+      return;
+    }
+    setIsLikedSongs(false);
+    setShowContainers(false);
+  }, [playlists]);
+
   // Any time a new playlist is chosen update the songs in the columns
   useEffect(() => {
     // If playlist doesn't exist
-    if (Object.keys(playlistInfo).length === 0) {
+    if (uniqueArtists.length < 0) {
       return;
     }
 
@@ -165,7 +169,63 @@ export default function PlaylistDropper(props) {
       );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [playlistInfo, uniqueArtists]);
+  }, [uniqueArtists]);
+
+  useEffect(() => {
+    // If playlist doesn't exist
+    if (Object.keys(playlistInfo).length === 0) {
+      return;
+    }
+
+    let songs = [];
+    console.log(playlistInfo);
+    const tempSongs = playlistInfo.tracks.items;
+    const artists = [];
+
+    // console.log(tempSongs);
+    if (tempSongs < 1) {
+      /* Get a User’s Top Tracks*/
+      spotifyApi.getMyTopTracks().then(
+        function (data) {
+          songs = data.body.items;
+          songs.forEach((song) => {
+            const subArtists = song.artists;
+            subArtists.forEach((subArtist) => {
+              artists.push(subArtist.id);
+            });
+          });
+          console.log(songs);
+          console.log(artists);
+          setIsLikedSongs(true);
+
+          // Finding first 5 Unique Arists in playlist
+          let tempArtists = [...new Set(artists)];
+          tempArtists = tempArtists.slice(0, 5);
+
+          console.log(tempArtists);
+          setUniqueArtists(tempArtists);
+        },
+        function (err) {
+          console.log("Something went wrong!", err);
+        }
+      );
+    } else {
+      songs = tempSongs;
+      songs.forEach((song) => {
+        const subArtists = song.track.artists;
+        subArtists.forEach((subArtist) => {
+          artists.push(subArtist.id);
+        });
+      });
+
+      // Finding first 5 Unique Arists in playlist
+      let tempArtists = [...new Set(artists)];
+      tempArtists = tempArtists.slice(0, 5);
+
+      console.log(tempArtists);
+      setUniqueArtists(tempArtists);
+    }
+  }, [playlistInfo]);
 
   useEffect(() => {
     if (exisitingPlaylistPlaceholder.length < 1) return;
@@ -195,6 +255,7 @@ export default function PlaylistDropper(props) {
 
       spotifyApi.addTracksToPlaylist(playlistId, uriArray);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [playlists.existingPlaylistSongs]);
 
   function findContainer(id) {
@@ -223,7 +284,7 @@ export default function PlaylistDropper(props) {
   }
 
   function handleDragOver(event) {
-    const { active, over, draggingRect } = event;
+    const { active, over } = event;
     const { id } = active;
     const { id: overId } = over;
 
@@ -259,7 +320,7 @@ export default function PlaylistDropper(props) {
         const isBelowLastItem =
           over &&
           overIndex === overplaylists.length - 1 &&
-          draggingRect.offsetTop > over.rect.offsetTop + over.rect.height;
+          active.rect.offsetTop > over.rect.offsetTop + over.rect.height;
 
         const modifier = isBelowLastItem ? 1 : 0;
 
@@ -342,46 +403,45 @@ export default function PlaylistDropper(props) {
               </div>
 
               <div className="playlist-dropper-zone">
-                {playlists.existingPlaylistSongs.length > 0 &&
-                  playlists.recommendedSongs.length > 0 && (
-                    <DndContext
-                      sensors={sensors}
-                      collisionDetection={closestCorners}
-                      onDragStart={handleDragStart}
-                      onDragOver={handleDragOver}
-                      onDragEnd={handleDragEnd}
-                    >
-                      <div className="playlist-recommended-section">
-                        <h5>Recommended Songs</h5>
+                {showContainers && (
+                  <DndContext
+                    sensors={sensors}
+                    collisionDetection={closestCorners}
+                    onDragStart={handleDragStart}
+                    onDragOver={handleDragOver}
+                    onDragEnd={handleDragEnd}
+                  >
+                    <div className="playlist-recommended-section">
+                      <h5>Recommended Songs</h5>
 
-                        <div className="playlist-recommended-zone">
-                          <Container
-                            id="container-1"
-                            playlists={playlists.recommendedSongs}
-                          />
-                        </div>
+                      <div className="playlist-recommended-zone">
+                        <Container
+                          id="container-1"
+                          playlists={playlists.recommendedSongs}
+                        />
                       </div>
-                      <div className="playist-song-section">
-                        <h5>Existing Songs</h5>
-                        <div className="playlist-song-zone">
-                          <Container
-                            id="container-2"
-                            playlists={playlists.existingPlaylistSongs}
-                          />
-                        </div>
+                    </div>
+                    <div className="playist-song-section">
+                      <h5>Existing Songs</h5>
+                      <div className="playlist-song-zone">
+                        <Container
+                          id="container-2"
+                          playlists={playlists.existingPlaylistSongs}
+                        />
                       </div>
-                      <DragOverlay>
-                        {activeId ? (
-                          <SongCard
-                            popularity={false}
-                            key={activeId.id}
-                            song={activeId}
-                            className="drag-songcard"
-                          />
-                        ) : null}
-                      </DragOverlay>
-                    </DndContext>
-                  )}
+                    </div>
+                    <DragOverlay>
+                      {activeId ? (
+                        <SongCard
+                          popularity={false}
+                          key={activeId.id}
+                          song={activeId}
+                          className="drag-songcard"
+                        />
+                      ) : null}
+                    </DragOverlay>
+                  </DndContext>
+                )}
               </div>
             </div>
           ) : (

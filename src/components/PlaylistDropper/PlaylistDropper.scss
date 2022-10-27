@@ -43,6 +43,7 @@
 .playlist-recommended-zone, .playlist-song-zone {
     flex-grow: 1;
     min-height: 2000px;
+    max-height: 3000px;
     display: flex;
     flex-direction: column;
     overflow-y: auto;
@@ -50,4 +51,9 @@
 
 .drag-songcard {
     opacity: .5;
+}
+
+.sortable-context{
+    min-height: 2000px;
+    max-height: 3000px;
 }
