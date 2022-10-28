@@ -1,0 +1,29 @@
+.mini-playlist-card-body {
+    display: flex;
+    justify-content: space-between;
+    background-color: #2b2a33;
+    color: white;
+    border-radius: 80px / 100%;
+    margin: 10px 5px;
+    padding: 25px;
+    align-items: center;
+    height: 100px;
+}
+
+.mini-playlist-card-body h3 {
+    font-size: 120%;
+    text-overflow: ellipsis;
+}
+
+.mini-playlist-card-body:hover {
+    cursor: pointer;
+    opacity: 0.95;
+}
+
+.mini-playlist-card-body img {
+    height: 40px;
+}
+
+.mini-playlist-card-meta-section * {
+    text-align: center;
+}

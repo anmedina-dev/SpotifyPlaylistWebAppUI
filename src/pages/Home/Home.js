@@ -59,7 +59,7 @@ export default function Home({ code }) {
                 />
                 <Route
                   path="/FindSong"
-                  element={<FindSong spotifyApi={spotifyApi} />}
+                  element={<FindSong spotifyApi={spotifyApi} user={user} />}
                 />
                 <Route
                   path="/PlaylistCreator"

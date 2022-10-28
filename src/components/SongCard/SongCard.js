@@ -8,6 +8,7 @@ import "./SongCard.scss";
 export default function SongCard(props) {
   const popularity = props.popularity;
   const songItem = props.song;
+
   // console.log(songItem);
 
   const { attributes, listeners, setNodeRef, transform, transition } =
